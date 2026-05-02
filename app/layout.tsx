@@ -27,6 +27,14 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        {/* Google AdSense — paste your code here */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3270819244736372"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
