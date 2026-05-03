@@ -1,5 +1,4 @@
 'use client'
-import { updateMovie, replaceStreamingPlatforms } from '@/lib/movies'
 import { useState, useEffect } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import Image from 'next/image'

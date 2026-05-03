@@ -30,7 +30,6 @@ export default function BoxOfficeScroll({ records }: { records: BoxOfficeRecord[
   return (
     <div
       className="flex flex-col gap-2 pr-1"
-      className="overflow-y-scroll"  // change overflow-y-auto to overflow-y-scroll
       style={{
         maxHeight: '232px',
         overflowY: 'auto',
