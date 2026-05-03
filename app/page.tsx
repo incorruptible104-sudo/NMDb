@@ -121,7 +121,7 @@ export default async function Home() {
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-8">
             <a href="/" className="text-2xl font-bold text-emerald-500">NMDb</a>
-            <div className="hidden md:flex gap-6 text-sm text-gray-400">
+            <div className="hidden lg:flex gap-6 text-sm text-gray-400">
               <a href="/movies" className="hover:text-white transition">Movies</a>
               <a href="/people" className="hover:text-white transition">People</a>
               <a href="/box-office" className="hover:text-white transition">Box Office</a>
@@ -155,7 +155,7 @@ export default async function Home() {
           ============================================ */}
       <section className="py-10">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="flex gap-8 items-stretch" style={{ minHeight: 0 }}>
+          <div className="flex flex-col md:flex-row gap-8 items-stretch" style={{ minHeight: 0 }}>
 
             {/* LEFT: Now In Cinemas */}
             <div className="flex-1 min-w-0">
@@ -164,7 +164,7 @@ export default async function Home() {
                 <a href="/movies?in_cinemas=true" className="text-emerald-400 text-sm hover:text-emerald-300 transition">View all →</a>
               </div>
               {inCinemas && inCinemas.length > 0 ? (
-                <div className="grid grid-cols-5 gap-3">
+                <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
                   {inCinemas.map((movie: any) => {
                     const bo = getBoxOffice(movie.id)
                     return (
@@ -197,7 +197,7 @@ export default async function Home() {
             </div>
 
             {/* RIGHT: Box Office */}
-            <div className="w-72 flex-shrink-0 flex flex-col">
+            <div className="w-full md:w-72 md:flex-shrink-0 flex flex-col">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold">💰 Box Office</h2>
                 <a href="/box-office" className="text-emerald-400 text-sm hover:text-emerald-300 transition">See all →</a>
@@ -223,7 +223,7 @@ export default async function Home() {
           ============================================ */}
       <section className="py-10 border-t border-gray-800">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="flex gap-8 items-stretch" style={{ minHeight: 0 }}>
+          <div className="flex flex-col md:flex-row gap-8 items-stretch" style={{ minHeight: 0 }}>
 
             {/* LEFT: Coming Soon */}
             <div className="flex-1 min-w-0 flex flex-col">
@@ -232,7 +232,7 @@ export default async function Home() {
                 <a href="/movies?status=Announced" className="text-emerald-400 text-sm hover:text-emerald-300 transition">View all →</a>
               </div>
               {comingSoon && comingSoon.length > 0 ? (
-                <div className="grid grid-cols-5 gap-3">
+                <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
                   {comingSoon.map((movie: any) => (
                     <a key={movie.id} href={`/movies/${movie.id}`} className="group">
                       <div className="aspect-[2/3] rounded-xl overflow-hidden bg-gray-800 relative mb-2">
@@ -251,7 +251,7 @@ export default async function Home() {
             </div>
 
             {/* RIGHT: Now Streaming slideshow */}
-            <div className="w-72 flex-shrink-0 flex flex-col">
+            <div className="w-full md:w-72 md:flex-shrink-0 flex flex-col">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold">📺 Now Streaming</h2>
                 <a href="/movies" className="text-emerald-400 text-sm hover:text-emerald-300 transition">View all →</a>

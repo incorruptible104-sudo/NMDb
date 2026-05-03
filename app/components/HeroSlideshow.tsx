@@ -46,12 +46,12 @@ export default function HeroSlideshow({
   const currentStream = validStreaming[streamIndex]
 
   return (
-    <div className="flex gap-4 items-stretch">
+    <div className="flex flex-col md:flex-row gap-4 items-stretch">
 
       {/* LEFT — Blog post slideshow */}
       <div className="flex-1 min-w-0">
         {posts.length > 0 && currentPost ? (
-          <div className="relative rounded-2xl overflow-hidden bg-gray-900" style={{ height: '420px' }}>
+          <div className="relative rounded-2xl overflow-hidden bg-gray-900" style={{ height: 'min(420px, 60vw)' }}>
 
             {/* Image — object-contain so nothing gets cropped */}
             {currentPost.cover_image_url ? (
@@ -103,7 +103,7 @@ export default function HeroSlideshow({
 
           </div>
         ) : (
-          <div className="rounded-2xl bg-gradient-to-br from-emerald-950 to-gray-900 flex flex-col items-center justify-center text-center p-12" style={{ height: '420px' }}>
+          <div className="rounded-2xl bg-gradient-to-br from-emerald-950 to-gray-900 flex flex-col items-center justify-center text-center p-8 md:p-12" style={{ height: 'min(420px, 60vw)' }}>
             <h1 className="text-4xl font-bold mb-4">The <span className="text-emerald-400">Nollywood</span> Movie Database</h1>
             <p className="text-gray-400 mb-6 max-w-md">The definitive record of every professional Nollywood production.</p>
             <div className="flex gap-3">
@@ -120,8 +120,8 @@ export default function HeroSlideshow({
       </div>
 
       {/* RIGHT — Now Streaming slideshow */}
-      <div className="w-80 flex-shrink-0">
-        <div className="bg-gray-900 rounded-2xl overflow-hidden" style={{ height: '420px' }}>
+      <div className="w-full md:w-80 md:flex-shrink-0">
+        <div className="bg-gray-900 rounded-2xl overflow-hidden" style={{ height: '300px' }}>
 
           {/* Header */}
           <div className="px-4 py-3 border-b border-gray-800 flex items-center justify-between">
