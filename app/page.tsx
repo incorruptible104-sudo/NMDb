@@ -68,7 +68,7 @@ export default async function Home() {
     supabase.from('movies')
       .select('id, title, poster_url, release_date, nmdb_meter, genre')
       .eq('content_type', 'Series')
-      .order('release_date', { ascending: false }).limit(6),
+      .order('release_date', { ascending: false }).limit(5),
   ])
 
   // Sort actors by number of credits (most filmography first), show top 8
@@ -164,14 +164,14 @@ export default async function Home() {
                 <a href="/movies?in_cinemas=true" className="text-emerald-400 text-sm hover:text-emerald-300 transition">View all →</a>
               </div>
               {inCinemas && inCinemas.length > 0 ? (
-                <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
+                <div className="flex md:grid gap-3 md:grid-cols-5 overflow-x-auto md:overflow-visible pb-2 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0">
                   {inCinemas.map((movie: any) => {
                     const bo = getBoxOffice(movie.id)
                     return (
-                      <a key={movie.id} href={`/movies/${movie.id}`} className="group">
+                      <a key={movie.id} href={`/movies/${movie.id}`} className="group flex-shrink-0 w-36 md:w-auto">
                         <div className="aspect-[2/3] rounded-xl overflow-hidden bg-gray-800 relative mb-2">
                           {movie.poster_url ? (
-                            <Image src={movie.poster_url} alt={movie.title} fill sizes="100px" className="object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
+                            <Image src={movie.poster_url} alt={movie.title} fill sizes="(max-width: 768px) 144px, 140px" className="object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
                           ) : <div className="w-full h-full flex items-center justify-center text-gray-600">🎬</div>}
                           <div className="absolute top-2 left-2">
                             <span className="bg-emerald-600 text-white text-xs px-2 py-0.5 rounded-full font-medium">In Cinemas</span>
@@ -232,12 +232,12 @@ export default async function Home() {
                 <a href="/movies?status=Announced" className="text-emerald-400 text-sm hover:text-emerald-300 transition">View all →</a>
               </div>
               {comingSoon && comingSoon.length > 0 ? (
-                <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
+                <div className="flex md:grid gap-3 md:grid-cols-5 overflow-x-auto md:overflow-visible pb-2 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0">
                   {comingSoon.map((movie: any) => (
-                    <a key={movie.id} href={`/movies/${movie.id}`} className="group">
+                    <a key={movie.id} href={`/movies/${movie.id}`} className="group flex-shrink-0 w-36 md:w-auto">
                       <div className="aspect-[2/3] rounded-xl overflow-hidden bg-gray-800 relative mb-2">
                         {movie.poster_url ? (
-                          <Image src={movie.poster_url} alt={movie.title} fill sizes="100px" className="object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
+                          <Image src={movie.poster_url} alt={movie.title} fill sizes="(max-width: 768px) 144px, 140px" className="object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
                         ) : <div className="w-full h-full flex items-center justify-center text-gray-600">🎬</div>}
                       </div>
                       <h3 className="text-xs font-medium truncate group-hover:text-emerald-400 transition">{movie.title}</h3>
