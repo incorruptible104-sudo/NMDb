@@ -21,6 +21,7 @@ export default async function Home() {
     { data: featuredMovies },
     { data: popularActors },
     { data: series },
+    { data: latestTrailers },
   ] = await Promise.all([
     // Blog posts for hero
     supabase.from('blog_posts').select('id, title, slug, excerpt, cover_image_url, author, created_at')
@@ -69,6 +70,12 @@ export default async function Home() {
     supabase.from('movies')
       .select('id, title, poster_url, release_date, nmdb_meter, genre')
       .eq('content_type', 'Series')
+      .order('release_date', { ascending: false }).limit(5),
+
+    // Latest trailers for hero middle panel
+    supabase.from('movies')
+      .select('id, title, poster_url, release_date, trailer_url')
+      .not('trailer_url', 'is', null)
       .order('release_date', { ascending: false }).limit(5),
   ])
 
@@ -126,7 +133,7 @@ export default async function Home() {
               <a href="/movies" className="hover:text-white transition">Movies</a>
               <a href="/people" className="hover:text-white transition">People</a>
               <a href="/box-office" className="hover:text-white transition">Box Office</a>
-              <a href="/blog" className="hover:text-white transition">Blog</a>
+              <a href="/blog" className="hover:text-white transition">News</a>
             </div>
           </div>
           <div className="flex items-center gap-4">
@@ -144,6 +151,7 @@ export default async function Home() {
           <HeroSlideshow
             posts={latestPosts || []}
             streaming={nowStreaming || []}
+            trailers={latestTrailers || []}
           />
         </div>
       </section>
