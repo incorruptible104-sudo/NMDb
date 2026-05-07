@@ -74,7 +74,7 @@ export default function HeroSlideshow({
 
   return (
     // Fixed outer height — label rows + panels all fit inside this
-    <div className="flex flex-col md:flex-row gap-3" style={{ height: '380px' }}>
+    <div className="flex flex-col md:flex-row gap-3 md:h-[380px]">
 
       {/* ── LEFT: Latest News (~50%) ──────────────────────────────────── */}
       <div className="flex-1 min-w-0 flex flex-col">
@@ -84,7 +84,7 @@ export default function HeroSlideshow({
         </div>
 
         {posts.length > 0 && currentPost ? (
-          <div className="relative rounded-2xl overflow-hidden bg-gray-900 flex-1">
+          <div className="relative rounded-2xl overflow-hidden bg-gray-900 flex-1 min-h-[280px] md:min-h-0">
             {currentPost.cover_image_url ? (
               <Image
                 key={currentPost.id}
@@ -134,7 +134,7 @@ export default function HeroSlideshow({
       </div>
 
       {/* ── MIDDLE: Latest Trailers (~25%) ───────────────────────────── */}
-      <div className="w-full md:w-[25%] md:flex-shrink-0 flex flex-col">
+      <div className="w-full md:w-[25%] md:flex-shrink-0 flex flex-col h-64 md:h-auto">
         <div className="flex items-center justify-between mb-1.5 px-1 flex-shrink-0">
           <h3 className="text-sm font-bold">🎬 Latest Trailers</h3>
           <a href="/movies" className="text-emerald-400 text-xs hover:text-emerald-300 transition">All →</a>
@@ -212,7 +212,7 @@ export default function HeroSlideshow({
       </div>
 
       {/* ── RIGHT: Now Streaming (~25%) ──────────────────────────────── */}
-      <div className="w-full md:w-[25%] md:flex-shrink-0 flex flex-col">
+      <div className="w-full md:w-[25%] md:flex-shrink-0 flex flex-col h-64 md:h-auto">
         <div className="flex items-center justify-between mb-1.5 px-1 flex-shrink-0">
           <h3 className="text-sm font-bold">📺 Now Streaming</h3>
           <a href="/movies" className="text-emerald-400 text-xs hover:text-emerald-300 transition">All →</a>

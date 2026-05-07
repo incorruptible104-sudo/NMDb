@@ -5,6 +5,7 @@ import SearchBar from '@/app/components/SearchBar'
 import BoxOfficeScroll from '@/app/components/BoxOfficeScroll'
 import StreamingSlideshow from '@/app/components/StreamingSlideshow'
 import FeaturedFilmsCarousel from '@/app/components/FeaturedFilmsCarousel'
+import Navbar from '@/app/components/Navbar'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -125,23 +126,7 @@ export default async function Home() {
     <main className="min-h-screen bg-gray-950 text-white">
 
       {/* Navigation */}
-      <nav className="border-b border-gray-800 px-6 py-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-8">
-            <a href="/" className="text-2xl font-bold text-emerald-500">NMDb</a>
-            <div className="hidden lg:flex gap-6 text-sm text-gray-400">
-              <a href="/movies" className="hover:text-white transition">Movies</a>
-              <a href="/people" className="hover:text-white transition">People</a>
-              <a href="/box-office" className="hover:text-white transition">Box Office</a>
-              <a href="/blog" className="hover:text-white transition">News</a>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <SearchBar />
-            <button className="bg-emerald-600 hover:bg-emerald-500 text-white text-sm px-4 py-2 rounded-full transition">Sign In</button>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* ============================================
           HERO: Blog Slideshow + Now Streaming Slideshow
