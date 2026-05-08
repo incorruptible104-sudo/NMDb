@@ -7,6 +7,7 @@ const navLinks = [
   { href: '/movies', label: 'Movies' },
   { href: '/people', label: 'People' },
   { href: '/box-office', label: 'Box Office' },
+  { href: '/streaming', label: 'Streaming' },
   { href: '/blog', label: 'News' },
 ]
 
@@ -31,7 +32,7 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           <SearchBar />
           <a
-            href="/sign-in"
+            href="//auth/signin"
             className="bg-emerald-600 hover:bg-emerald-500 text-white text-sm px-4 py-2 rounded-lg transition whitespace-nowrap"
           >
             Sign In

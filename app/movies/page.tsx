@@ -89,9 +89,9 @@ export default async function MoviesPage({
           </div>
           <div className="flex items-center gap-4">
           <SearchBar />
-            <button className="bg-emerald-600 hover:bg-emerald-500 text-white text-sm px-4 py-2 rounded-full transition">
-              Sign In
-            </button>
+            <a href="/auth/signin" className="bg-emerald-600 hover:bg-emerald-500 text-white text-sm px-4 py-2 rounded-full transition">
+  Sign In
+</a>
           </div>
         </div>
       </nav>

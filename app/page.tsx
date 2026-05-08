@@ -6,6 +6,7 @@ import BoxOfficeScroll from '@/app/components/BoxOfficeScroll'
 import StreamingSlideshow from '@/app/components/StreamingSlideshow'
 import FeaturedFilmsCarousel from '@/app/components/FeaturedFilmsCarousel'
 import Navbar from '@/app/components/Navbar'
+import YouTubeTrending from '@/app/components/YouTubeTrending'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -289,14 +290,8 @@ export default async function Home() {
               )}
             </div>
 
-            {/* RIGHT: Now Streaming slideshow */}
-            <div className="w-full md:w-72 md:flex-shrink-0 flex flex-col">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold">📺 Now Streaming</h2>
-                <a href="/movies" className="text-emerald-400 text-sm hover:text-emerald-300 transition">View all →</a>
-              </div>
-              <StreamingSlideshow records={nowStreaming || []} />
-            </div>
+            {/* RIGHT: Trending on YouTube */}
+            <YouTubeTrending />
 
           </div>
         </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 
 type BlogPost = {
@@ -46,22 +46,61 @@ export default function HeroSlideshow({
   const [streamIndex, setStreamIndex] = useState(0)
   const [trailerIndex, setTrailerIndex] = useState(0)
   const [trailerPlaying, setTrailerPlaying] = useState(false)
+  const trailerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
+  // Auto-advance blog posts every 5s
   useEffect(() => {
     if (!posts.length) return
     const t = setInterval(() => setPostIndex((i) => (i + 1) % posts.length), 5000)
     return () => clearInterval(t)
   }, [posts.length])
 
+  // Auto-advance streaming every 4s
   useEffect(() => {
     if (!streaming.length) return
     const t = setInterval(() => setStreamIndex((i) => (i + 1) % streaming.length), 4000)
     return () => clearInterval(t)
   }, [streaming.length])
 
+  // Auto-advance trailers every 6s — pause when playing
+  const startTrailerInterval = () => {
+    if (trailerIntervalRef.current) clearInterval(trailerIntervalRef.current)
+    trailerIntervalRef.current = setInterval(() => {
+      setTrailerIndex((i) => (i + 1) % Math.max(trailers.length, 1))
+      setTrailerPlaying(false)
+    }, 6000)
+  }
+
+  useEffect(() => {
+    if (!trailers.length) return
+    startTrailerInterval()
+    return () => { if (trailerIntervalRef.current) clearInterval(trailerIntervalRef.current) }
+  }, [trailers.length])
+
+  // Stop auto-advance when trailer is playing
+  useEffect(() => {
+    if (trailerPlaying) {
+      if (trailerIntervalRef.current) clearInterval(trailerIntervalRef.current)
+    } else {
+      startTrailerInterval()
+    }
+  }, [trailerPlaying])
+
+  // Reset player when trailer changes
   useEffect(() => {
     setTrailerPlaying(false)
   }, [trailerIndex])
+
+  const prevTrailer = () => {
+    setTrailerIndex((i) => (i - 1 + trailers.length) % trailers.length)
+    startTrailerInterval()
+  }
+  const nextTrailer = () => {
+    setTrailerIndex((i) => (i + 1) % trailers.length)
+    startTrailerInterval()
+  }
+  const prevPost = () => setPostIndex((i) => (i - 1 + posts.length) % posts.length)
+  const nextPost = () => setPostIndex((i) => (i + 1) % posts.length)
 
   const validStreaming = streaming.filter((r) => r.movies)
   const currentPost = posts[postIndex]
@@ -73,7 +112,6 @@ export default function HeroSlideshow({
     : null
 
   return (
-    // Fixed outer height — label rows + panels all fit inside this
     <div className="flex flex-col md:flex-row gap-3 md:h-[380px]">
 
       {/* ── LEFT: Latest News (~50%) ──────────────────────────────────── */}
@@ -100,7 +138,29 @@ export default function HeroSlideshow({
                 <span className="text-6xl">📰</span>
               </div>
             )}
+
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+
+            {/* ← → Arrow buttons */}
+            <button
+              onClick={prevPost}
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/50 hover:bg-black/80 border border-white/20 flex items-center justify-center transition z-10"
+              aria-label="Previous"
+            >
+              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button
+              onClick={nextPost}
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/50 hover:bg-black/80 border border-white/20 flex items-center justify-center transition z-10"
+              aria-label="Next"
+            >
+              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+
             <a href={`/blog/${currentPost.slug}`} className="absolute bottom-0 left-0 right-0 p-5 group">
               <span className="text-emerald-400 text-xs uppercase tracking-wider font-semibold">Latest</span>
               <h2 className="text-white font-bold text-lg mt-1 leading-snug group-hover:text-emerald-400 transition line-clamp-2">
@@ -113,7 +173,9 @@ export default function HeroSlideshow({
                 {currentPost.author} · {new Date(currentPost.created_at).toLocaleDateString('en-NG', { month: 'short', day: 'numeric', year: 'numeric' })}
               </p>
             </a>
-            <div className="absolute top-4 right-4 flex gap-1.5">
+
+            {/* Dot indicators */}
+            <div className="absolute top-4 right-14 flex gap-1.5">
               {posts.map((_, i) => (
                 <button key={i} onClick={() => setPostIndex(i)}
                   className={`w-2 h-2 rounded-full transition ${i === postIndex ? 'bg-emerald-400' : 'bg-white/40'}`}
@@ -133,17 +195,16 @@ export default function HeroSlideshow({
         )}
       </div>
 
-      {/* ── MIDDLE: Latest Trailers (~25%) ───────────────────────────── */}
+      {/* ── MIDDLE: Latest Trailers (~25%) — auto-slideshow, no All link ── */}
       <div className="w-full md:w-[25%] md:flex-shrink-0 flex flex-col h-64 md:h-auto">
-        <div className="flex items-center justify-between mb-1.5 px-1 flex-shrink-0">
+        <div className="flex items-center mb-1.5 px-1 flex-shrink-0">
           <h3 className="text-sm font-bold">🎬 Latest Trailers</h3>
-          <a href="/movies" className="text-emerald-400 text-xs hover:text-emerald-300 transition">All →</a>
         </div>
 
         <div className="bg-gray-900 rounded-2xl overflow-hidden flex flex-col flex-1">
           {currentTrailer && youtubeId ? (
             <>
-              {/* Video / thumbnail — fills all space above the info strip */}
+              {/* Video / thumbnail */}
               <div className="relative overflow-hidden bg-black flex-1">
                 {trailerPlaying ? (
                   <iframe
@@ -160,7 +221,7 @@ export default function HeroSlideshow({
                     <img
                       src={youtubeThumbnail!}
                       alt={currentTrailer.title}
-                      className="absolute inset-0 w-full h-full object-cover"
+                      className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
                       onError={(e) => {
                         const img = e.currentTarget
                         if (img.src.includes('maxresdefault')) {
@@ -169,6 +230,32 @@ export default function HeroSlideshow({
                       }}
                     />
                     <div className="absolute inset-0 bg-black/30" />
+
+                    {/* ← → Arrows */}
+                    {trailers.length > 1 && (
+                      <>
+                        <button
+                          onClick={prevTrailer}
+                          className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 hover:bg-black/80 border border-white/20 flex items-center justify-center transition z-10"
+                          aria-label="Previous trailer"
+                        >
+                          <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                          </svg>
+                        </button>
+                        <button
+                          onClick={nextTrailer}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 hover:bg-black/80 border border-white/20 flex items-center justify-center transition z-10"
+                          aria-label="Next trailer"
+                        >
+                          <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                          </svg>
+                        </button>
+                      </>
+                    )}
+
+                    {/* Play button */}
                     <button
                       onClick={() => setTrailerPlaying(true)}
                       className="absolute inset-0 flex items-center justify-center group"
@@ -184,7 +271,7 @@ export default function HeroSlideshow({
                 )}
               </div>
 
-              {/* Info strip below video */}
+              {/* Info strip */}
               <div className="px-3 py-2.5 flex-shrink-0 bg-gray-900">
                 <a href={`/movies/${currentTrailer.id}`} className="group block">
                   <p className="text-xs text-emerald-400 font-semibold uppercase tracking-wide mb-0.5">Trailer</p>
@@ -195,7 +282,7 @@ export default function HeroSlideshow({
                 {trailers.length > 1 && (
                   <div className="flex gap-1.5 mt-1.5">
                     {trailers.map((_, i) => (
-                      <button key={i} onClick={() => setTrailerIndex(i)}
+                      <button key={i} onClick={() => { setTrailerIndex(i); startTrailerInterval() }}
                         className={`w-2 h-2 rounded-full transition ${i === trailerIndex ? 'bg-emerald-400' : 'bg-white/30'}`}
                       />
                     ))}
@@ -215,7 +302,7 @@ export default function HeroSlideshow({
       <div className="w-full md:w-[25%] md:flex-shrink-0 flex flex-col h-64 md:h-auto">
         <div className="flex items-center justify-between mb-1.5 px-1 flex-shrink-0">
           <h3 className="text-sm font-bold">📺 Now Streaming</h3>
-          <a href="/movies" className="text-emerald-400 text-xs hover:text-emerald-300 transition">All →</a>
+          <a href="/streaming" className="text-emerald-400 text-xs hover:text-emerald-300 transition">All →</a>
         </div>
 
         <div className="bg-gray-900 rounded-2xl overflow-hidden flex-1 relative">
