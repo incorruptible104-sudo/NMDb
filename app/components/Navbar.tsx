@@ -28,11 +28,17 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Right: Search + Sign In + Hamburger */}
+        {/* Right: Search + Sign Up + Sign In + Hamburger */}
         <div className="flex items-center gap-3">
           <SearchBar />
           <a
-            href="//auth/signin"
+            href="/auth/signup"
+            className="hidden sm:block border border-emerald-600 hover:bg-emerald-600/10 text-emerald-500 text-sm px-4 py-2 rounded-lg transition whitespace-nowrap"
+          >
+            Sign Up
+          </a>
+          <a
+            href="/auth/signin"
             className="bg-emerald-600 hover:bg-emerald-500 text-white text-sm px-4 py-2 rounded-lg transition whitespace-nowrap"
           >
             Sign In
@@ -63,6 +69,22 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+          <div className="flex gap-3 pt-1">
+            <a
+              href="/auth/signup"
+              onClick={() => setMenuOpen(false)}
+              className="flex-1 text-center border border-emerald-600 text-emerald-500 text-sm px-4 py-2 rounded-lg transition"
+            >
+              Sign Up
+            </a>
+            <a
+              href="/auth/signin"
+              onClick={() => setMenuOpen(false)}
+              className="flex-1 text-center bg-emerald-600 hover:bg-emerald-500 text-white text-sm px-4 py-2 rounded-lg transition"
+            >
+              Sign In
+            </a>
+          </div>
         </div>
       )}
     </nav>
