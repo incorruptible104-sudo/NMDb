@@ -91,7 +91,7 @@ export default async function YouTubeTrending() {
   const videos = await fetchTrendingNollywoodVideos()
 
   return (
-    <div className="w-full md:w-72 md:flex-shrink-0 flex flex-col">
+    <div className="w-full md:w-96 md:mx-auto flex flex-col">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold">▶️ Trending on YouTube</h2>
         <a href="/youtube-trending" className="text-emerald-400 text-sm hover:text-emerald-300 transition">View all →</a>

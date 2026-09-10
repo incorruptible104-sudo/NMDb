@@ -1,12 +1,14 @@
 import { createClient } from '@supabase/supabase-js'
 import Image from 'next/image'
-import HeroSlideshow from '@/app/components/HeroSlideshow'
 import SearchBar from '@/app/components/SearchBar'
 import BoxOfficeScroll from '@/app/components/BoxOfficeScroll'
 import StreamingSlideshow from '@/app/components/StreamingSlideshow'
 import FeaturedFilmsCarousel from '@/app/components/FeaturedFilmsCarousel'
 import Navbar from '@/app/components/Navbar'
 import YouTubeTrending from '@/app/components/YouTubeTrending'
+import LatestNewsPanel from '@/app/components/LatestNewsPanel'
+import LatestTrailersPanel from '@/app/components/LatestTrailersPanel'
+import NowStreamingPanel from '@/app/components/NowStreamingPanel'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -130,25 +132,9 @@ export default async function Home() {
       <Navbar />
 
       {/* ============================================
-          HERO: Blog Slideshow + Now Streaming Slideshow
-          ============================================ */}
-      <section className="border-b border-gray-800 py-8">
-        <div className="max-w-6xl mx-auto px-6">
-          <HeroSlideshow
-            posts={latestPosts || []}
-            streaming={nowStreaming || []}
-            trailers={latestTrailers || []}
-          />
-        </div>
-      </section>
-
-      {/* ============================================
-          MAIN BODY: Two Column Layout
-          ============================================ */}
-      {/* ============================================
           ROW 1: Now In Cinemas (left) + Box Office (right)
           ============================================ */}
-      <section className="py-10">
+      <section className="py-10 border-b border-gray-800">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col md:flex-row gap-8 items-stretch" style={{ minHeight: 0 }}>
 
@@ -242,58 +228,84 @@ export default async function Home() {
       </section>
 
       {/* ============================================
-          ROW 2: Coming Soon (left) + Streaming (right)
+          Coming Soon
           ============================================ */}
-      <section className="py-10 border-t border-gray-800">
+      <section className="py-10 border-b border-gray-800">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row gap-8 items-stretch" style={{ minHeight: 0 }}>
-
-            {/* LEFT: Coming Soon */}
-            <div className="flex-1 min-w-0 flex flex-col">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold">🔜 Coming Soon</h2>
-                <a href="/movies?status=Announced" className="text-emerald-400 text-sm hover:text-emerald-300 transition">View all →</a>
-              </div>
-              {comingSoon && comingSoon.length > 0 ? (
-                <>
-                  {/* Mobile: 3-col grid, 6 movies (2 rows) */}
-                  <div className="grid grid-cols-3 gap-3 md:hidden">
-                    {comingSoon.slice(0, 6).map((movie: any) => (
-                      <a key={movie.id} href={`/movies/${movie.id}`} className="group">
-                        <div className="aspect-[2/3] rounded-xl overflow-hidden bg-gray-800 relative mb-2">
-                          {movie.poster_url ? (
-                            <Image src={movie.poster_url} alt={movie.title} fill sizes="110px" className="object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
-                          ) : <div className="w-full h-full flex items-center justify-center text-gray-600">🎬</div>}
-                        </div>
-                        <h3 className="text-xs font-medium truncate group-hover:text-emerald-400 transition">{movie.title}</h3>
-                        {movie.release_date && <p className="text-gray-600 text-xs">{new Date(movie.release_date).toLocaleDateString('en-NG', { month: 'short', year: 'numeric' })}</p>}
-                      </a>
-                    ))}
-                  </div>
-                  {/* Desktop: original 5-col grid */}
-                  <div className="hidden md:grid gap-3 md:grid-cols-5">
-                    {comingSoon.slice(0, 5).map((movie: any) => (
-                      <a key={movie.id} href={`/movies/${movie.id}`} className="group flex-shrink-0 w-36 md:w-auto">
-                        <div className="aspect-[2/3] rounded-xl overflow-hidden bg-gray-800 relative mb-2">
-                          {movie.poster_url ? (
-                            <Image src={movie.poster_url} alt={movie.title} fill sizes="(max-width: 768px) 144px, 140px" className="object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
-                          ) : <div className="w-full h-full flex items-center justify-center text-gray-600">🎬</div>}
-                        </div>
-                        <h3 className="text-xs font-medium truncate group-hover:text-emerald-400 transition">{movie.title}</h3>
-                        {movie.release_date && <p className="text-gray-600 text-xs">{new Date(movie.release_date).toLocaleDateString('en-NG', { month: 'short', year: 'numeric' })}</p>}
-                      </a>
-                    ))}
-                  </div>
-                </>
-              ) : (
-                <div className="bg-gray-900 rounded-xl p-6 text-center text-gray-600 text-sm flex-1">No upcoming films yet.</div>
-              )}
-            </div>
-
-            {/* RIGHT: Trending on YouTube */}
-            <YouTubeTrending />
-
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold">🔜 Coming Soon</h2>
+            <a href="/movies?status=Announced" className="text-emerald-400 text-sm hover:text-emerald-300 transition">View all →</a>
           </div>
+          {comingSoon && comingSoon.length > 0 ? (
+            <>
+              {/* Mobile: 3-col grid, 6 movies (2 rows) */}
+              <div className="grid grid-cols-3 gap-3 md:hidden">
+                {comingSoon.slice(0, 6).map((movie: any) => (
+                  <a key={movie.id} href={`/movies/${movie.id}`} className="group">
+                    <div className="aspect-[2/3] rounded-xl overflow-hidden bg-gray-800 relative mb-2">
+                      {movie.poster_url ? (
+                        <Image src={movie.poster_url} alt={movie.title} fill sizes="110px" className="object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
+                      ) : <div className="w-full h-full flex items-center justify-center text-gray-600">🎬</div>}
+                    </div>
+                    <h3 className="text-xs font-medium truncate group-hover:text-emerald-400 transition">{movie.title}</h3>
+                    {movie.release_date && <p className="text-gray-600 text-xs">{new Date(movie.release_date).toLocaleDateString('en-NG', { month: 'short', year: 'numeric' })}</p>}
+                  </a>
+                ))}
+              </div>
+              {/* Desktop: 5-col grid */}
+              <div className="hidden md:grid gap-3 md:grid-cols-5">
+                {comingSoon.slice(0, 5).map((movie: any) => (
+                  <a key={movie.id} href={`/movies/${movie.id}`} className="group flex-shrink-0 w-36 md:w-auto">
+                    <div className="aspect-[2/3] rounded-xl overflow-hidden bg-gray-800 relative mb-2">
+                      {movie.poster_url ? (
+                        <Image src={movie.poster_url} alt={movie.title} fill sizes="(max-width: 768px) 144px, 140px" className="object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
+                      ) : <div className="w-full h-full flex items-center justify-center text-gray-600">🎬</div>}
+                    </div>
+                    <h3 className="text-xs font-medium truncate group-hover:text-emerald-400 transition">{movie.title}</h3>
+                    {movie.release_date && <p className="text-gray-600 text-xs">{new Date(movie.release_date).toLocaleDateString('en-NG', { month: 'short', year: 'numeric' })}</p>}
+                  </a>
+                ))}
+              </div>
+            </>
+          ) : (
+            <div className="bg-gray-900 rounded-xl p-6 text-center text-gray-600 text-sm">No upcoming films yet.</div>
+          )}
+        </div>
+      </section>
+
+      {/* ============================================
+          Latest Trailers
+          ============================================ */}
+      <section className="py-10 border-b border-gray-800">
+        <div className="max-w-6xl mx-auto px-6">
+          <LatestTrailersPanel trailers={latestTrailers || []} />
+        </div>
+      </section>
+
+      {/* ============================================
+          Now Streaming
+          ============================================ */}
+      <section className="py-10 border-b border-gray-800">
+        <div className="max-w-6xl mx-auto px-6">
+          <NowStreamingPanel streaming={nowStreaming || []} />
+        </div>
+      </section>
+
+      {/* ============================================
+          Trending on YouTube
+          ============================================ */}
+      <section className="py-10 border-b border-gray-800">
+        <div className="max-w-6xl mx-auto px-6">
+          <YouTubeTrending />
+        </div>
+      </section>
+
+      {/* ============================================
+          Latest News
+          ============================================ */}
+      <section className="py-10">
+        <div className="max-w-6xl mx-auto px-6">
+          <LatestNewsPanel posts={latestPosts || []} />
         </div>
       </section>
 
