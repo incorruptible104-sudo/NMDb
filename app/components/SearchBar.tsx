@@ -58,7 +58,7 @@ export default function SearchBar() {
         supabase
           .from('people')
           .select('id, full_name, stage_name, photo_url, primary_role')
-          .ilike('full_name', `%${q}%`)
+          .or(`full_name.ilike.%${q}%,stage_name.ilike.%${q}%`)
           .limit(3),
         supabase
           .from('blog_posts')
