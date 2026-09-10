@@ -34,5 +34,5 @@ export async function GET(request: NextRequest) {
   }
 
   // Return user to login with error
-  return NextResponse.redirect(`${origin}/login?error=auth`)
+   return NextResponse.redirect(`${origin}/auth/signin?error=auth`)
 }
