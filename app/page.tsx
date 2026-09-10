@@ -41,7 +41,7 @@ export default async function Home() {
       .select('id, title, poster_url, release_date, nmdb_meter, content_type')
       .eq('in_cinemas', true)
       .eq('content_type', 'Movie')
-      .order('release_date', { ascending: false }).limit(6),
+      .order('release_date', { ascending: false }).limit(7),
 
     // Box office — in-cinemas movies with their highest total_nigeria, sorted highest first
     supabase.from('box_office')
@@ -132,98 +132,106 @@ export default async function Home() {
       <Navbar />
 
       {/* ============================================
-          ROW 1: Now In Cinemas (left) + Box Office (right)
+          HERO ROW: Latest News (left) + Now Streaming (right)
           ============================================ */}
       <section className="py-10 border-b border-gray-800">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col md:flex-row gap-8 items-stretch" style={{ minHeight: 0 }}>
-
-            {/* LEFT: Now In Cinemas */}
             <div className="flex-1 min-w-0">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold">🎬 Now In Cinemas</h2>
-                <a href="/movies?in_cinemas=true" className="text-emerald-400 text-sm hover:text-emerald-300 transition">View all →</a>
-              </div>
-              {inCinemas && inCinemas.length > 0 ? (
-                <>
-                  {/* Mobile: 3-col grid, 6 movies (2 rows) */}
-                  <div className="grid grid-cols-3 gap-3 md:hidden">
-                    {inCinemas.slice(0, 6).map((movie: any) => {
-                      const bo = getBoxOffice(movie.id)
-                      return (
-                        <a key={movie.id} href={`/movies/${movie.id}`} className="group">
-                          <div className="aspect-[2/3] rounded-xl overflow-hidden bg-gray-800 relative mb-2">
-                            {movie.poster_url ? (
-                              <Image src={movie.poster_url} alt={movie.title} fill sizes="110px" className="object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
-                            ) : <div className="w-full h-full flex items-center justify-center text-gray-600">🎬</div>}
-                            <div className="absolute top-1 left-1">
-                              <span className="bg-emerald-600 text-white text-xs px-1.5 py-0.5 rounded-full font-medium">In Cinemas</span>
-                            </div>
-                            {bo && (
-                              <div className="absolute bottom-1 left-0 right-0 px-1">
-                                <div className="bg-black/80 text-emerald-400 text-xs font-bold px-1.5 py-0.5 rounded text-center">{formatNaira(bo)}</div>
-                              </div>
-                            )}
-                          </div>
-                          <h3 className="text-xs font-medium truncate group-hover:text-emerald-400 transition">{movie.title}</h3>
-                          <p className="text-gray-500 text-xs">{movie.release_date?.slice(0, 4)}</p>
-                        </a>
-                      )
-                    })}
-                  </div>
-                  {/* Desktop: original horizontal scroll / 5-col grid */}
-                  <div className="hidden md:flex md:grid gap-3 md:grid-cols-5">
-                    {inCinemas.slice(0, 5).map((movie: any) => {
-                      const bo = getBoxOffice(movie.id)
-                      return (
-                        <a key={movie.id} href={`/movies/${movie.id}`} className="group flex-shrink-0 w-36 md:w-auto">
-                          <div className="aspect-[2/3] rounded-xl overflow-hidden bg-gray-800 relative mb-2">
-                            {movie.poster_url ? (
-                              <Image src={movie.poster_url} alt={movie.title} fill sizes="(max-width: 768px) 144px, 140px" className="object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
-                            ) : <div className="w-full h-full flex items-center justify-center text-gray-600">🎬</div>}
-                            <div className="absolute top-2 left-2">
-                              <span className="bg-emerald-600 text-white text-xs px-2 py-0.5 rounded-full font-medium">In Cinemas</span>
-                            </div>
-                            {bo && (
-                              <div className="absolute bottom-2 left-0 right-0 px-2">
-                                <div className="bg-black/80 text-emerald-400 text-xs font-bold px-2 py-0.5 rounded text-center">{formatNaira(bo)}</div>
-                              </div>
-                            )}
-                          </div>
-                          <h3 className="text-xs font-medium truncate group-hover:text-emerald-400 transition">{movie.title}</h3>
-                          <p className="text-gray-500 text-xs">{movie.release_date?.slice(0, 4)}</p>
-                        </a>
-                      )
-                    })}
-                  </div>
-                </>
-              ) : (
-                <div className="bg-gray-900 rounded-xl p-6 text-center text-gray-600 text-sm">
-                  No films currently in cinemas.<br />
-                  <a href="/admin/movie/new" className="text-emerald-400 hover:underline mt-1 block">Add one →</a>
-                </div>
-              )}
+              <LatestNewsPanel posts={latestPosts || []} />
             </div>
-
-            {/* RIGHT: Box Office */}
-            <div className="w-full md:w-72 md:flex-shrink-0 flex flex-col">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold">💰 Box Office</h2>
-                <a href="/box-office" className="text-emerald-400 text-sm hover:text-emerald-300 transition">See all →</a>
-              </div>
-              {topBoxOffice.length > 0 ? (
-                <div className="flex flex-col">
-                  <BoxOfficeScroll records={topBoxOffice} />
-                  <a href="/box-office" className="block text-center text-emerald-400 text-xs hover:text-emerald-300 transition py-2.5 bg-gray-900 rounded-xl hover:bg-gray-800 mt-2">
-                    View full Box Office →
-                  </a>
-                </div>
-              ) : (
-                <div className="bg-gray-900 rounded-xl p-6 text-center text-gray-600 text-sm">No box office data yet.</div>
-              )}
+            <div className="w-full md:w-96 md:flex-shrink-0">
+              <NowStreamingPanel streaming={nowStreaming || []} />
             </div>
-
           </div>
+        </div>
+      </section>
+
+      {/* ============================================
+          Now In Cinemas — own full-width row
+          ============================================ */}
+      <section className="py-10 border-b border-gray-800">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold">🎬 Now In Cinemas</h2>
+            <a href="/movies?in_cinemas=true" className="text-emerald-400 text-sm hover:text-emerald-300 transition">View all →</a>
+          </div>
+          {inCinemas && inCinemas.length > 0 ? (
+            <>
+              {/* Mobile: 3-col grid, 6 movies (2 rows) */}
+              <div className="grid grid-cols-3 gap-3 md:hidden">
+                {inCinemas.slice(0, 6).map((movie: any) => {
+                  const bo = getBoxOffice(movie.id)
+                  return (
+                    <a key={movie.id} href={`/movies/${movie.id}`} className="group">
+                      <div className="aspect-[2/3] rounded-xl overflow-hidden bg-gray-800 relative mb-2">
+                        {movie.poster_url ? (
+                          <Image src={movie.poster_url} alt={movie.title} fill sizes="110px" className="object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
+                        ) : <div className="w-full h-full flex items-center justify-center text-gray-600">🎬</div>}
+                        <div className="absolute top-1 left-1">
+                          <span className="bg-emerald-600 text-white text-xs px-1.5 py-0.5 rounded-full font-medium">In Cinemas</span>
+                        </div>
+                        {bo && (
+                          <div className="absolute bottom-1 left-0 right-0 px-1">
+                            <div className="bg-black/80 text-emerald-400 text-xs font-bold px-1.5 py-0.5 rounded text-center">{formatNaira(bo)}</div>
+                          </div>
+                        )}
+                      </div>
+                      <h3 className="text-xs font-medium truncate group-hover:text-emerald-400 transition">{movie.title}</h3>
+                      <p className="text-gray-500 text-xs">{movie.release_date?.slice(0, 4)}</p>
+                    </a>
+                  )
+                })}
+              </div>
+              {/* Desktop: 7-col grid, stretched full width */}
+              <div className="hidden md:grid gap-3 md:grid-cols-7">
+                {inCinemas.slice(0, 7).map((movie: any) => {
+                  const bo = getBoxOffice(movie.id)
+                  return (
+                    <a key={movie.id} href={`/movies/${movie.id}`} className="group">
+                      <div className="aspect-[2/3] rounded-xl overflow-hidden bg-gray-800 relative mb-2">
+                        {movie.poster_url ? (
+                          <Image src={movie.poster_url} alt={movie.title} fill sizes="(max-width: 1200px) 14vw, 140px" className="object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
+                        ) : <div className="w-full h-full flex items-center justify-center text-gray-600">🎬</div>}
+                        <div className="absolute top-2 left-2">
+                          <span className="bg-emerald-600 text-white text-xs px-2 py-0.5 rounded-full font-medium">In Cinemas</span>
+                        </div>
+                        {bo && (
+                          <div className="absolute bottom-2 left-0 right-0 px-2">
+                            <div className="bg-black/80 text-emerald-400 text-xs font-bold px-2 py-0.5 rounded text-center">{formatNaira(bo)}</div>
+                          </div>
+                        )}
+                      </div>
+                      <h3 className="text-xs font-medium truncate group-hover:text-emerald-400 transition">{movie.title}</h3>
+                      <p className="text-gray-500 text-xs">{movie.release_date?.slice(0, 4)}</p>
+                    </a>
+                  )
+                })}
+              </div>
+            </>
+          ) : (
+            <div className="bg-gray-900 rounded-xl p-6 text-center text-gray-600 text-sm">
+              No films currently in cinemas.<br />
+              <a href="/admin/movie/new" className="text-emerald-400 hover:underline mt-1 block">Add one →</a>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ============================================
+          Box Office — own full-width row, horizontal
+          ============================================ */}
+      <section className="py-10 border-b border-gray-800">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold">💰 Box Office</h2>
+            <a href="/box-office" className="text-emerald-400 text-sm hover:text-emerald-300 transition">See all →</a>
+          </div>
+          {topBoxOffice.length > 0 ? (
+            <BoxOfficeScroll records={topBoxOffice} />
+          ) : (
+            <div className="bg-gray-900 rounded-xl p-6 text-center text-gray-600 text-sm">No box office data yet.</div>
+          )}
         </div>
       </section>
 
@@ -283,29 +291,11 @@ export default async function Home() {
       </section>
 
       {/* ============================================
-          Now Streaming
-          ============================================ */}
-      <section className="py-10 border-b border-gray-800">
-        <div className="max-w-6xl mx-auto px-6">
-          <NowStreamingPanel streaming={nowStreaming || []} />
-        </div>
-      </section>
-
-      {/* ============================================
           Trending on YouTube
           ============================================ */}
       <section className="py-10 border-b border-gray-800">
         <div className="max-w-6xl mx-auto px-6">
           <YouTubeTrending />
-        </div>
-      </section>
-
-      {/* ============================================
-          Latest News
-          ============================================ */}
-      <section className="py-10">
-        <div className="max-w-6xl mx-auto px-6">
-          <LatestNewsPanel posts={latestPosts || []} />
         </div>
       </section>
 
