@@ -24,7 +24,7 @@ export default async function SearchPage({
         supabase
           .from('people')
           .select('id, full_name, stage_name, photo_url, primary_role, nationality')
-          .ilike('full_name', `%${query}%`)
+          .or(`full_name.ilike.%${query}%,stage_name.ilike.%${query}%`)
           .limit(12),
         supabase
           .from('blog_posts')
