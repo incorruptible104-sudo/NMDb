@@ -183,15 +183,15 @@ export default async function Home() {
                   )
                 })}
               </div>
-              {/* Desktop: 7-col grid, stretched full width */}
-              <div className="hidden md:grid gap-3 md:grid-cols-7">
-                {inCinemas.slice(0, 7).map((movie: any) => {
+              {/* Desktop: 5-col grid, stretched full width (matches Coming Soon sizing) */}
+              <div className="hidden md:grid gap-3 md:grid-cols-5">
+                {inCinemas.slice(0, 5).map((movie: any) => {
                   const bo = getBoxOffice(movie.id)
                   return (
                     <a key={movie.id} href={`/movies/${movie.id}`} className="group">
                       <div className="aspect-[2/3] rounded-xl overflow-hidden bg-gray-800 relative mb-2">
                         {movie.poster_url ? (
-                          <Image src={movie.poster_url} alt={movie.title} fill sizes="(max-width: 1200px) 14vw, 140px" className="object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
+                          <Image src={movie.poster_url} alt={movie.title} fill sizes="(max-width: 768px) 144px, 140px" className="object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
                         ) : <div className="w-full h-full flex items-center justify-center text-gray-600">🎬</div>}
                         <div className="absolute top-2 left-2">
                           <span className="bg-emerald-600 text-white text-xs px-2 py-0.5 rounded-full font-medium">In Cinemas</span>
