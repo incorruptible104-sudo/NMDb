@@ -4,6 +4,7 @@ import SearchBar from '@/app/components/SearchBar'
 import BoxOfficeScroll from '@/app/components/BoxOfficeScroll'
 import StreamingSlideshow from '@/app/components/StreamingSlideshow'
 import FeaturedFilmsCarousel from '@/app/components/FeaturedFilmsCarousel'
+import ActorsCarousel from '@/app/components/ActorsCarousel'
 import Navbar from '@/app/components/Navbar'
 import YouTubeTrending from '@/app/components/YouTubeTrending'
 import LatestNewsPanel from '@/app/components/LatestNewsPanel'
@@ -282,15 +283,6 @@ export default async function Home() {
       </section>
 
       {/* ============================================
-          Latest Trailers
-          ============================================ */}
-      <section className="py-10 border-b border-gray-800">
-        <div className="max-w-6xl mx-auto px-6">
-          <LatestTrailersPanel trailers={latestTrailers || []} />
-        </div>
-      </section>
-
-      {/* ============================================
           Trending on YouTube
           ============================================ */}
       <section className="py-10 border-b border-gray-800">
@@ -316,6 +308,15 @@ export default async function Home() {
         </section>
       )}
 
+      {/* ============================================
+          Latest Trailers
+          ============================================ */}
+      <section className="py-10 border-t border-gray-800">
+        <div className="max-w-6xl mx-auto px-6">
+          <LatestTrailersPanel trailers={latestTrailers || []} />
+        </div>
+      </section>
+
       {/* Most Popular Actors */}
       {sortedActors && sortedActors.length > 0 && (
         <section className="py-10 border-t border-gray-800">
@@ -324,18 +325,7 @@ export default async function Home() {
               <h2 className="text-2xl font-bold">🎭 Popular Actors</h2>
               <a href="/people" className="text-emerald-400 text-sm hover:text-emerald-300 transition">View all →</a>
             </div>
-            <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))' }}>
-              {sortedActors.map((person: any) => (
-                <a key={person.id} href={`/people/${person.id}`} className="group text-center">
-                  <div className="aspect-square rounded-2xl overflow-hidden bg-gray-800 relative mb-2">
-                    {person.photo_url ? (
-                      <Image src={person.photo_url} alt={person.full_name} fill sizes="110px" className="object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
-                    ) : <div className="w-full h-full flex items-center justify-center text-gray-600 text-3xl">👤</div>}
-                  </div>
-                  <h3 className="text-xs font-medium truncate group-hover:text-emerald-400 transition">{person.stage_name || person.full_name}</h3>
-                </a>
-              ))}
-            </div>
+            <ActorsCarousel actors={sortedActors} />
           </div>
         </section>
       )}
