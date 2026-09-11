@@ -55,15 +55,15 @@ export default function BoxOfficeScroll({ records }: { records: BoxOfficeRecord[
         })}
       </div>
 
-      {/* Desktop: 7-col grid, stretched full width */}
-      <div className="hidden md:grid gap-3 md:grid-cols-7">
-        {records.slice(0, 7).map((record, index) => {
+      {/* Desktop: 5-col grid, stretched full width (matches Coming Soon sizing) */}
+      <div className="hidden md:grid gap-3 md:grid-cols-5">
+        {records.slice(0, 5).map((record, index) => {
           const days = daysInCinemas(record.movies?.release_date)
           return (
             <a key={record.movie_id} href={`/movies/${record.movies?.id}`} className="group">
               <div className="aspect-[2/3] rounded-xl overflow-hidden bg-gray-800 relative mb-2">
                 {record.movies?.poster_url ? (
-                  <Image src={record.movies.poster_url} alt={record.movies.title} fill sizes="(max-width: 1200px) 14vw, 140px" className="object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
+                  <Image src={record.movies.poster_url} alt={record.movies.title} fill sizes="(max-width: 768px) 144px, 140px" className="object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
                 ) : <div className="w-full h-full flex items-center justify-center text-gray-600">🎬</div>}
                 <div className="absolute top-2 left-2">
                   <span className={`text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center ${index === 0 ? 'bg-yellow-400 text-black' : index === 1 ? 'bg-gray-300 text-black' : index === 2 ? 'bg-amber-600 text-white' : 'bg-black/80 text-gray-300'}`}>
