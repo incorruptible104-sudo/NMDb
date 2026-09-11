@@ -134,9 +134,9 @@ export default async function YouTubeTrending() {
             ))}
           </div>
 
-          {/* Desktop: horizontal row, stretched full width */}
-          <div className="hidden md:grid gap-4 md:grid-cols-7">
-            {videos.slice(0, 7).map((video, index) => (
+          {/* Desktop: horizontal row, stretched full width, larger thumbnails */}
+          <div className="hidden md:grid gap-4 md:grid-cols-4">
+            {videos.slice(0, 4).map((video, index) => (
               <a
                 key={video.videoId}
                 href={`https://www.youtube.com/watch?v=${video.videoId}`}
@@ -157,12 +157,12 @@ export default async function YouTubeTrending() {
                     </span>
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition bg-black/40">
-                    <div className="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center">
-                      <svg className="w-4 h-4 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                    <div className="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center">
+                      <svg className="w-6 h-6 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                     </div>
                   </div>
                 </div>
-                <h4 className="text-xs font-semibold line-clamp-2 group-hover:text-emerald-400 transition leading-snug">{video.title}</h4>
+                <h4 className="text-sm font-semibold line-clamp-2 group-hover:text-emerald-400 transition leading-snug">{video.title}</h4>
                 <p className="text-gray-500 text-xs mt-1 truncate">{video.channelTitle}</p>
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <span className="text-emerald-400 text-xs font-semibold">{formatViews(video.viewCount)}</span>
