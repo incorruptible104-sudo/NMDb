@@ -364,7 +364,10 @@ export default async function Home() {
       {/* Footer */}
       <footer className="border-t border-gray-800 px-6 py-8 mt-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between text-gray-500 text-sm">
-          <span>© 2026 NMDb — Nollywood Movie Database</span>
+          <div className="flex items-center gap-2">
+            <Image src="/nmdb-logo.png" alt="NMDb" width={80} height={24} className="h-5 w-auto opacity-80" />
+            <span>© 2026 — Nollywood Movie Database</span>
+          </div>
           <span>Built for the industry. Powered by data.</span>
         </div>
       </footer>
