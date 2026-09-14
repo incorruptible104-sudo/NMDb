@@ -71,10 +71,10 @@ export default function Navbar() {
             <Image
               src="/nmdb-logo.png"
               alt="NMDb"
-              width={140}
-              height={40}
+              width={337}
+              height={100}
               priority
-              className="h-9 w-auto"
+              className="h-10 w-auto"
             />
           </a>
           <div className="hidden lg:flex gap-6 text-sm text-gray-400">
