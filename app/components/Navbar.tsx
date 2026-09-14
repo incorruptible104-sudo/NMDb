@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { createBrowserClient } from '@supabase/ssr'
 import SearchBar from '@/app/components/SearchBar'
 
@@ -66,7 +67,16 @@ export default function Navbar() {
 
         {/* Left: Logo + desktop links */}
         <div className="flex items-center gap-8">
-          <a href="/" className="text-2xl font-bold text-emerald-500">NMDb</a>
+          <a href="/" className="flex items-center">
+            <Image
+              src="/nmdb-logo.png"
+              alt="NMDb"
+              width={140}
+              height={40}
+              priority
+              className="h-9 w-auto"
+            />
+          </a>
           <div className="hidden lg:flex gap-6 text-sm text-gray-400">
             {navLinks.map(link => (
               <a key={link.href} href={link.href} className="hover:text-white transition">{link.label}</a>
