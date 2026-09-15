@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
 import { createBrowserClient } from '@supabase/ssr'
 import SearchBar from '@/app/components/SearchBar'
 
@@ -67,16 +66,7 @@ export default function Navbar() {
 
         {/* Left: Logo + desktop links */}
         <div className="flex items-center gap-8">
-          <a href="/" className="flex items-center">
-            <Image
-              src="/nmdb-logo.png"
-              alt="NMDb"
-              width={337}
-              height={100}
-              priority
-              className="h-10 w-auto"
-            />
-          </a>
+          <a href="/" className="text-2xl font-bold text-emerald-500">NMDb</a>
           <div className="hidden lg:flex gap-6 text-sm text-gray-400">
             {navLinks.map(link => (
               <a key={link.href} href={link.href} className="hover:text-white transition">{link.label}</a>
@@ -104,9 +94,15 @@ export default function Navbar() {
                       <p className="text-xs text-gray-500">Signed in as</p>
                       <p className="text-sm text-white truncate">{userEmail}</p>
                     </div>
+                    <a
+                      href="/watchlist"
+                      className="block px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-800 hover:text-white transition"
+                    >
+                      My Watchlist
+                    </a>
                     <button
                       onClick={handleSignOut}
-                      className="w-full text-left px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-800 hover:text-white transition"
+                      className="w-full text-left px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-800 hover:text-white transition border-t border-gray-800"
                     >
                       Sign out
                     </button>
@@ -160,8 +156,15 @@ export default function Navbar() {
 
           {!checkingAuth && (
             userEmail ? (
-              <div className="pt-1">
-                <p className="text-xs text-gray-500 mb-2 truncate">Signed in as {userEmail}</p>
+              <div className="pt-1 flex flex-col gap-2">
+                <p className="text-xs text-gray-500 mb-1 truncate">Signed in as {userEmail}</p>
+                <a
+                  href="/watchlist"
+                  onClick={() => setMenuOpen(false)}
+                  className="w-full text-center border border-gray-700 text-gray-300 text-sm px-4 py-2 rounded-lg transition hover:bg-gray-800"
+                >
+                  My Watchlist
+                </a>
                 <button
                   onClick={handleSignOut}
                   className="w-full text-center border border-gray-700 text-gray-300 text-sm px-4 py-2 rounded-lg transition hover:bg-gray-800"
