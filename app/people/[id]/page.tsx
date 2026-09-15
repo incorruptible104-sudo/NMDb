@@ -1,6 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
+import Navbar from '@/app/components/Navbar'
+import Footer from '@/app/components/Footer'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -87,21 +89,7 @@ export default async function PersonDetailPage({ params }: { params: Promise<{ i
       <main className="min-h-screen bg-gray-950 text-white">
 
         {/* Navigation */}
-        <nav className="border-b border-gray-800 px-6 py-4">
-          <div className="max-w-5xl mx-auto flex items-center justify-between">
-            <div className="flex items-center gap-8">
-              <a href="/" className="text-2xl font-bold text-emerald-500">NMDb</a>
-              <div className="hidden md:flex gap-6 text-sm text-gray-400">
-                <a href="/movies" className="hover:text-white transition">Movies</a>
-                <a href="/people" className="hover:text-white transition">People</a>
-                <a href="/box-office" className="hover:text-white transition">Box Office</a>
-              </div>
-            </div>
-            <a href="/people" className="text-sm text-gray-400 hover:text-white transition">
-              ← Back to People
-            </a>
-          </div>
-        </nav>
+        <Navbar />
 
         {/* Profile Header */}
         <section className="px-6 py-12 border-b border-gray-800">
@@ -293,12 +281,7 @@ export default async function PersonDetailPage({ params }: { params: Promise<{ i
         )}
 
         {/* Footer */}
-        <footer className="border-t border-gray-800 px-6 py-8 mt-12">
-          <div className="max-w-5xl mx-auto flex items-center justify-between text-gray-500 text-sm">
-            <span>© 2026 NMDb — Nollywood Movie Database</span>
-            <span>Built for the industry. Powered by data.</span>
-          </div>
-        </footer>
+        <Footer />
 
       </main>
     </>

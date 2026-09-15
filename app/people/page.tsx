@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import Image from 'next/image'
-import SearchBar from '@/app/components/SearchBar'
+import Navbar from '@/app/components/Navbar'
+import Footer from '@/app/components/Footer'
 
 
 
@@ -49,24 +50,7 @@ export default async function PeoplePage({
     <main className="min-h-screen bg-gray-950 text-white">
 
       {/* Navigation */}
-      <nav className="border-b border-gray-800 px-6 py-4">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-8">
-            <a href="/" className="text-2xl font-bold text-emerald-500">NMDb</a>
-            <div className="hidden md:flex gap-6 text-sm text-gray-400">
-              <a href="/movies" className="hover:text-white transition">Movies</a>
-              <a href="/people" className="text-white transition">People</a>
-              <a href="/box-office" className="hover:text-white transition">Box Office</a>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-           <SearchBar />
-            <button className="bg-emerald-600 hover:bg-emerald-500 text-white text-sm px-4 py-2 rounded-full transition">
-              Sign In
-            </button>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Header */}
       <section className="px-6 py-12 border-b border-gray-800">
@@ -158,12 +142,7 @@ export default async function PeoplePage({
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-800 px-6 py-8 mt-12">
-        <div className="max-w-5xl mx-auto flex items-center justify-between text-gray-500 text-sm">
-          <span>© 2026 NMDb — Nollywood Movie Database</span>
-          <span>Built for the industry. Powered by data.</span>
-        </div>
-      </footer>
+      <Footer />
 
     </main>
   )

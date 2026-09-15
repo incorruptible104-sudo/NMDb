@@ -1,4 +1,5 @@
 import Navbar from '@/app/components/Navbar'
+import Footer from '@/app/components/Footer'
 
 export const metadata = {
   title: 'Trending on YouTube — NMDb | Nollywood Movie Database',
@@ -182,12 +183,7 @@ export default async function YouTubeTrendingPage() {
         </div>
       </section>
 
-      <footer className="border-t border-gray-800 px-6 py-8 mt-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between text-gray-500 text-sm">
-          <span>© 2026 NMDb — Nollywood Movie Database</span>
-          <span>Built for the industry. Powered by data.</span>
-        </div>
-      </footer>
+      <Footer />
     </main>
   )
 }

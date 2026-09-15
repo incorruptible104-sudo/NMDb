@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { createBrowserClient } from '@supabase/ssr'
 import Navbar from '@/app/components/Navbar'
+import Footer from '@/app/components/Footer'
 
 type WatchlistMovie = {
   id: string
@@ -100,6 +101,8 @@ export default function WatchlistPage() {
           )}
         </div>
       </section>
+
+      <Footer />
     </main>
   )
 }

@@ -1,7 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import SearchBar from '@/app/components/SearchBar'
+import Navbar from '@/app/components/Navbar'
+import Footer from '@/app/components/Footer'
 
 
 
@@ -52,20 +53,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <main className="min-h-screen bg-gray-950 text-white">
-        <nav className="border-b border-gray-800 px-6 py-4">
-          <div className="max-w-5xl mx-auto flex items-center justify-between">
-            <div className="flex items-center gap-8">
-              <a href="/" className="text-2xl font-bold text-emerald-500">NMDb</a>
-              <div className="hidden md:flex gap-6 text-sm text-gray-400">
-                <a href="/movies" className="hover:text-white transition">Movies</a>
-                <a href="/people" className="hover:text-white transition">People</a>
-                <a href="/box-office" className="hover:text-white transition">Box Office</a>
-                <a href="/blog" className="hover:text-white transition">Blog</a>
-              </div>
-            </div>
-            <a href="/blog" className="text-sm text-gray-400 hover:text-white transition">← Back to Blog</a>
-          </div>
-        </nav>
+        <Navbar />
 
         <article className="max-w-3xl mx-auto px-6 py-12">
 
@@ -109,12 +97,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
         </article>
 
-        <footer className="border-t border-gray-800 px-6 py-8 mt-12">
-          <div className="max-w-5xl mx-auto flex items-center justify-between text-gray-500 text-sm">
-            <span>© 2026 NMDb — Nollywood Movie Database</span>
-            <span>Built for the industry. Powered by data.</span>
-          </div>
-        </footer>
+        <Footer />
       </main>
     </>
   )

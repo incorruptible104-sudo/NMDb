@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
+import Image from 'next/image'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -36,7 +37,9 @@ export default function ResetPasswordPage() {
       <div className="max-w-md w-full">
 
         <div className="text-center mb-8">
-          <a href="/" className="text-3xl font-bold text-emerald-500">NMDb</a>
+          <a href="/" className="inline-flex items-center justify-center">
+            <Image src="/nmdb-logo.png" alt="NMDb" width={337} height={100} className="h-8 w-auto" priority />
+          </a>
           <p className="text-gray-500 text-sm mt-1">Nollywood Movie Database</p>
         </div>
 

@@ -3,6 +3,7 @@
 import { Suspense, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createBrowserClient } from '@supabase/ssr'
+import Image from 'next/image'
 
 function SignInForm()  {
   const router = useRouter()
@@ -40,7 +41,9 @@ function SignInForm()  {
     <div className="min-h-screen bg-gray-950 flex flex-col">
       {/* Navbar echo */}
       <div className="border-b border-gray-800 px-6 py-4">
-        <a href="/" className="text-2xl font-bold text-emerald-500">NMDb</a>
+        <a href="/" className="inline-flex items-center">
+          <Image src="/nmdb-logo.png" alt="NMDb" width={337} height={100} className="h-7 w-auto" priority />
+        </a>
       </div>
 
       <div className="flex-1 flex items-center justify-center px-4 py-12">

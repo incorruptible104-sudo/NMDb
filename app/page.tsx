@@ -10,6 +10,7 @@ import YouTubeTrending from '@/app/components/YouTubeTrending'
 import LatestNewsPanel from '@/app/components/LatestNewsPanel'
 import LatestTrailersPanel from '@/app/components/LatestTrailersPanel'
 import NowStreamingPanel from '@/app/components/NowStreamingPanel'
+import Footer from '@/app/components/Footer'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -362,15 +363,7 @@ export default async function Home() {
       )}
 
       {/* Footer */}
-      <footer className="border-t border-gray-800 px-6 py-8 mt-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between text-gray-500 text-sm">
-          <div className="flex items-center gap-3">
-            <Image src="/nmdb-logo.png" alt="NMDb" width={337} height={100} className="h-7 w-auto" />
-            <span>© 2026 — Nollywood Movie Database</span>
-          </div>
-          <span>Built for the industry. Powered by data.</span>
-        </div>
-      </footer>
+      <Footer />
 
     </main>
   )

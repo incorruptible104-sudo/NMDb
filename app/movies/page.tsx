@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import Image from 'next/image'
-import SearchBar from '@/app/components/SearchBar'
+import Navbar from '@/app/components/Navbar'
+import Footer from '@/app/components/Footer'
 
 
 
@@ -75,26 +76,7 @@ export default async function MoviesPage({
     <main className="min-h-screen bg-gray-950 text-white">
 
       {/* Navigation */}
-      <nav className="border-b border-gray-800 px-6 py-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-8">
-            <a href="/" className="text-2xl font-bold text-emerald-500">NMDb</a>
-            <div className="hidden md:flex gap-6 text-sm text-gray-400">
-              <a href="/movies" className="text-white">Movies</a>
-              <a href="/series" className="hover:text-white transition">Series</a>
-              <a href="/people" className="hover:text-white transition">People</a>
-              <a href="/box-office" className="hover:text-white transition">Box Office</a>
-              <a href="/blog" className="hover:text-white transition">Blog</a>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-          <SearchBar />
-            <a href="/auth/signin" className="bg-emerald-600 hover:bg-emerald-500 text-white text-sm px-4 py-2 rounded-full transition">
-  Sign In
-</a>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Header + Filters */}
       <section className="px-6 py-10 border-b border-gray-800">
@@ -284,12 +266,7 @@ export default async function MoviesPage({
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-800 px-6 py-8 mt-12">
-        <div className="max-w-6xl mx-auto flex items-center justify-between text-gray-500 text-sm">
-          <span>© 2026 NMDb — Nollywood Movie Database</span>
-          <span>Built for the industry. Powered by data.</span>
-        </div>
-      </footer>
+      <Footer />
 
     </main>
   )

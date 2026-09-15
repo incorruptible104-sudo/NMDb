@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createBrowserClient } from '@supabase/ssr'
+import Image from 'next/image'
 
 export default function UpdatePasswordPage() {
   const router = useRouter()
@@ -86,7 +87,9 @@ export default function UpdatePasswordPage() {
     <main className="min-h-screen bg-gray-950 text-white flex items-center justify-center px-6">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <a href="/" className="text-3xl font-bold text-emerald-500">NMDb</a>
+          <a href="/" className="inline-flex items-center justify-center">
+            <Image src="/nmdb-logo.png" alt="NMDb" width={337} height={100} className="h-8 w-auto" priority />
+          </a>
           <p className="text-gray-500 text-sm mt-1">Nollywood Movie Database</p>
         </div>
 

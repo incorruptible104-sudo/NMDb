@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import Image from 'next/image'
 import Navbar from '@/app/components/Navbar'
+import Footer from '@/app/components/Footer'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -208,12 +209,7 @@ export default async function BoxOfficePage() {
         </div>
       </section>
 
-      <footer className="border-t border-gray-800 px-6 py-8">
-        <div className="max-w-5xl mx-auto flex items-center justify-between text-gray-500 text-sm">
-          <span>© 2026 NMDb — Nollywood Movie Database</span>
-          <span>Built for the industry. Powered by data.</span>
-        </div>
-      </footer>
+      <Footer />
 
     </main>
   )
