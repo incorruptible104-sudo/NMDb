@@ -1,6 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
+import WatchlistButton from '@/app/components/WatchlistButton'
+import ReviewSection from '@/app/components/ReviewSection'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -277,6 +279,8 @@ export default async function MovieDetailPage({ params }: { params: Promise<{ id
             {/* RIGHT COLUMN — Production info, NMDb Meter, Holiday Blockbuster */}
             <div className="w-full md:w-40 flex-shrink-0 flex flex-col gap-3 text-sm">
 
+              <WatchlistButton movieId={movie.id} />
+
               {/* NMDb Meter — compact */}
               {movie.nmdb_meter && (
                 <div className="bg-gray-900 border border-gray-800 rounded-lg px-4 py-3 flex items-center justify-between">
@@ -419,6 +423,9 @@ export default async function MovieDetailPage({ params }: { params: Promise<{ id
             </div>
           </section>
         )}
+
+        {/* Ratings & Reviews */}
+        <ReviewSection movieId={movie.id} />
 
         {/* Footer */}
         <footer className="border-t border-gray-800 px-6 py-8 mt-12">
