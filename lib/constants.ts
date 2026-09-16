@@ -34,6 +34,9 @@ export const STREAMING_PLATFORMS = [
   'Startimes',
   'Buni TV',
   'NdaniTV',
+  'Kava', 
+  'EbonyLifeONPlus',
+  'AcceleratePlus',
   // YouTube & Free
   'YouTube',
   'YouTube Premium',
