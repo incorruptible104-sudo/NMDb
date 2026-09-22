@@ -28,6 +28,7 @@ export default async function Home() {
     { data: popularActors },
     { data: series },
     { data: latestTrailers },
+    { data: oldNollywood },
   ] = await Promise.all([
     // Blog posts for hero
     supabase.from('blog_posts').select('id, title, slug, excerpt, cover_image_url, author, created_at')
@@ -83,6 +84,14 @@ export default async function Home() {
       .select('id, title, poster_url, release_date, trailer_url')
       .not('trailer_url', 'is', null)
       .order('release_date', { ascending: false }).limit(5),
+
+    // Old Nollywood (VHS/VCD era) — teaser for the homepage
+    supabase.from('movies')
+      .select('id, title, poster_url, release_date, nmdb_meter, content_type')
+      .eq('content_type', 'Movie')
+      .gte('release_date', '1990-01-01')
+      .lte('release_date', '2009-12-31')
+      .order('nmdb_meter', { ascending: false, nullsFirst: false }).limit(6),
   ])
 
   // Sort actors by number of credits (most filmography first), show top 8
@@ -355,6 +364,37 @@ export default async function Home() {
                   </div>
                   <h3 className="text-sm font-medium truncate group-hover:text-emerald-400 transition">{show.title}</h3>
                   <p className="text-gray-500 text-xs">{show.release_date?.slice(0, 4)}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Old Nollywood (VHS/VCD Era) */}
+      {oldNollywood && oldNollywood.length > 0 && (
+        <section className="py-10 border-t border-gray-800">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-2xl font-bold">📼 Old Nollywood</h2>
+                <p className="text-gray-500 text-sm mt-1">The VHS &amp; VCD era that started it all</p>
+              </div>
+              <a href="/old-nollywood" className="text-amber-400 text-sm hover:text-amber-300 transition whitespace-nowrap">View all →</a>
+            </div>
+            <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
+              {oldNollywood.map((movie: any) => (
+                <a key={movie.id} href={`/movies/${movie.id}`} className="group">
+                  <div className="aspect-[2/3] rounded-xl overflow-hidden bg-gray-800 relative mb-2">
+                    {movie.poster_url ? (
+                      <Image src={movie.poster_url} alt={movie.title} fill sizes="(max-width: 768px) 110px, 150px" className="object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
+                    ) : <div className="w-full h-full flex items-center justify-center text-gray-600 text-xl">📼</div>}
+                    {movie.nmdb_meter && (
+                      <div className="absolute bottom-1 right-1 bg-black/80 text-emerald-400 text-xs font-bold px-1.5 py-0.5 rounded">⭐ {movie.nmdb_meter}</div>
+                    )}
+                  </div>
+                  <h3 className="text-xs md:text-sm font-medium truncate group-hover:text-amber-400 transition">{movie.title}</h3>
+                  <p className="text-gray-500 text-xs">{movie.release_date?.slice(0, 4)}</p>
                 </a>
               ))}
             </div>
