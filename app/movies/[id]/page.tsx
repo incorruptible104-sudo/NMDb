@@ -60,6 +60,16 @@ export default async function MovieDetailPage({ params }: { params: Promise<{ id
     .eq('movie_id', id)
     .order('billing_order', { ascending: true })
 
+  const { data: reviews } = await supabase
+    .from('reviews')
+    .select('rating')
+    .eq('movie_id', id)
+
+  const reviewCount = reviews?.length || 0
+  const averageRating = reviewCount > 0
+    ? reviews!.reduce((sum, r) => sum + r.rating, 0) / reviewCount
+    : null
+
   const totalBoxOffice = boxOffice?.reduce(
     (sum, record) => sum + (record.total_nigeria || 0), 0
   ) || 0
@@ -85,11 +95,12 @@ export default async function MovieDetailPage({ params }: { params: Promise<{ id
     } : undefined,
     director: directors.map((d: any) => ({ '@type': 'Person', name: d.people?.full_name })),
     actor: actors.slice(0, 5).map((a: any) => ({ '@type': 'Person', name: a.people?.full_name })),
-    aggregateRating: movie.nmdb_meter ? {
+    aggregateRating: averageRating !== null ? {
       '@type': 'AggregateRating',
-      ratingValue: movie.nmdb_meter,
-      bestRating: 100,
-      ratingCount: 1,
+      ratingValue: Math.round(averageRating * 10) / 10,
+      bestRating: 10,
+      worstRating: 1,
+      ratingCount: reviewCount,
     } : undefined,
   }
 
