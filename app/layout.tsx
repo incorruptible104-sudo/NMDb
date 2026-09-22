@@ -49,6 +49,41 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
+        {/* Organization + WebSite structured data — helps Google recognize
+            NMDb as a distinct entity and enables the sitelinks search box */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                name: "NMDb",
+                alternateName: "Nollywood Movie Database",
+                url: "https://www.nmdb.cc",
+                logo: "https://www.nmdb.cc/nmdb-logo.png",
+                description:
+                  "NMDb is the Nollywood Movie Database — tracking box office numbers, cast and crew, streaming availability, trailers and news for Nigerian films.",
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                name: "NMDb",
+                alternateName: "Nollywood Movie Database",
+                url: "https://www.nmdb.cc",
+                potentialAction: {
+                  "@type": "SearchAction",
+                  target: {
+                    "@type": "EntryPoint",
+                    urlTemplate: "https://www.nmdb.cc/search?q={search_term_string}",
+                  },
+                  "query-input": "required name=search_term_string",
+                },
+              },
+            ]),
+          }}
+        />
+
         {/* Google AdSense — paste your code here */}
         <script
           async
