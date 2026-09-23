@@ -91,7 +91,7 @@ export default async function Home() {
       .eq('content_type', 'Movie')
       .not('poster_url', 'is', null)
       .gte('release_date', '1990-01-01')
-      .lte('release_date', '2009-12-31')
+      .lte('release_date', '2010-12-31')
       .order('nmdb_meter', { ascending: false, nullsFirst: false }).limit(6),
   ])
 
