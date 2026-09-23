@@ -11,7 +11,7 @@ const supabase = createClient(
 // The VHS/VCD era this page covers. Adjust here if you want to widen or
 // narrow the range later -- everything else on the page reads from these.
 const ERA_START_YEAR = 1990
-const ERA_END_YEAR = 2009
+const ERA_END_YEAR = 2010
 const VHS_VCD_CUTOFF_YEAR = 2000 // films before this are tagged "VHS", on/after are "VCD"
 
 const PAGE_SIZE = 24
