@@ -29,6 +29,7 @@ export default async function MoviesPage({
     .eq('content_type', 'Movie')
     .order('poster_url', { ascending: false, nullsFirst: false })
     .order('release_date', { ascending: false })
+    .range(0, 9999)
 
   if (genre) query = query.contains('genre', [genre])
   if (language) query = query.contains('language', [language])
@@ -55,7 +56,7 @@ export default async function MoviesPage({
   const genres = ['Action', 'Comedy', 'Drama', 'Thriller', 'Romance', 'Horror', 'Documentary', 'Animation', 'Crime', 'Family', 'Mystery', 'Biography', 'Musical', 'Sci-Fi']
   const languages = ['English', 'Yoruba', 'Igbo', 'Hausa', 'Nigerian Pidgin', 'Mixed']
   const streamingPlatforms = ['Netflix', 'Prime Video', 'ShowMax', 'Canal+', 'Apple TV', 'YouTube', 'ROK', 'IrokoTV']
-  const years = ['2026', '2025', '2024', '2023', '2022', '2021', '2020', '2019']
+  const years = Array.from({ length: 2026 - 1990 + 1 }, (_, i) => String(2026 - i))
   const statuses = ['In Cinemas', 'Released', 'Announced', 'In Production']
 
   const buildUrl = (key: string, value: string) => {
@@ -94,8 +95,9 @@ export default async function MoviesPage({
             </a>
           </div>
           <p className="text-gray-400 mb-8">
-            {filteredMovies?.length || 0} film{filteredMovies?.length !== 1 ? 's' : ''} catalogued
-            {hasFilters ? ' — filtered' : ' from 2019 to present'}
+            {hasFilters
+              ? `${filteredMovies?.length || 0} film${filteredMovies?.length !== 1 ? 's' : ''} catalogued — filtered`
+              : 'Over 10,000 films from the 1990s to present'}
           </p>
 
           <div className="space-y-3">
